@@ -16,4 +16,4 @@ source_image.save("output.webp", format="WEBP", quality=40)
 
 heif_file = heif_from_pillow(source_image)
 heif_file.save("output.heic", quality=40)
-source_image.save("output.avif", quality=40)
+source_image.save("output.avif", quality=45)
