@@ -3,6 +3,8 @@ from pillow_heif import register_heif_opener, from_pillow as heif_from_pillow
 
 import pillow_avif 
 import os
+import rawpy
+import numpy as np
 
 sauna = r"C:\Users\Admin\Pictures\1\sauna.jpg"
 
@@ -38,6 +40,9 @@ def compress_image(file_path: str, quality: int = 50, format: str = "avif"):
     if format not in suported_formats:
         raise ValueError(f"Формат {format} не поддерживается")
     image = Image.open(file_path)
+
+    file_path = file_path.split(".")[-2]
+
     if format in ["webp", "avif"]:
         image.save(f"{file_path}.{format}", format=format, quality=quality)
         return
@@ -48,14 +53,32 @@ def compress_image(file_path: str, quality: int = 50, format: str = "avif"):
         return
     
 
-def get_images_paths(source_path: str, allowed_extensions: list[str]) ->
-    images_paths = []
+def get_images_paths(source_path: str, allowed_extensions: list[str]) -> list[str]:
+    if not os.path.exists(source_path):
+        raise ValueError(f"Путь {source_path} не существует")
+    
+    if os.path.isfile(source_path):
+        return [source_path]
+
+    images = []
     for root, dirs, files in os.walk(source_path):
         for file in files:
             full_path = os.path.join(root, file)
-            if os.path.isfile(full_path) and os.path.splitext(file)[1][1:] in allowed_extensions:
-                images_paths.append(full_path)
-    return images_paths
+            if os.path.isfile(full_path):
+                if file.split(".")[-1] in allowed_extensions:
+                    images.append(full_path)
+    return images
     
 
-compress_image(sauna, format="webp")
+def main():
+    user_path = input("Введите путь к папке с изображениями: ").strip('"')
+
+    images = get_images_paths(user_path, ALLOWED_EXTENSIONS)
+    for image in images:
+        compress_image(image, format="avif")
+
+if __name__ == "__main__":
+    main()
+
+
+
