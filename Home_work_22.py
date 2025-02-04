@@ -30,7 +30,16 @@ def read_csv (file_path: str, encoding: str = "utf-8") -> list[dict]:
         return list(data)
 
 def read_json (file_path: str, encoding: str = "utf-8") -> None:
-    pass
+    """
+    Функция для чтения json файла.
+
+    :param file_path: путь к файлу
+    :param encoding: кодировка файла
+    :return: список словарей
+    """
+    with open(file_path, "r", encoding=encoding) as file:
+        data = json.load(file)
+        return data
 
 def read_yaml (file_path: str, encoding: str = "utf-8") -> None:
     pass
