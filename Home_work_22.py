@@ -41,21 +41,17 @@ def read_json (file_path: str, encoding: str = "utf-8") -> list[dict]:
         data = json.load(file)
         return data
 
-def read_yaml (file_path: str, encoding: str = "utf-8") -> None:
-    pass
-
-
-def write_txt (file_path: str, *data: str, encoding: str = "utf-8") -> None:
+def read_yaml (file_path: str, encoding: str = "utf-8"):
     """
-    Функция записывает данные в файл
+    Функция для чтения yaml файла.
 
     : param data: Данные для записи
     : param file_path: путь к файлу
     :param encoding: кодировка файла
     """
-    with open(file_path, "w", encoding=encoding) as file:
-        ready_data = [item + '\n' for item in data]
-        file.writelines(ready_data)
+    with open(file_path, "r", encoding=encoding) as file:
+        data = yaml.safe_load(file)
+        return data
 
 def write_csv (file_path: str, *data: dict, delimetr: str = ";", encoding: str = "utf-8-sig"):
     """
@@ -82,8 +78,6 @@ def write_json (file_path: str, *data: dict, encoding: str = "utf-8") -> None:
     with open(file_path, "w", encoding=encoding) as file:
         json.dump(data, file, ensure_ascii=False, indent=2)
 
-def write_yaml (file_path: str, *data: dict, encoding: str = "utf-8") -> None:
-    pass
 
 def append_txt (file_path: str, *data: str, encoding: str = "utf-8") -> None:
     """
