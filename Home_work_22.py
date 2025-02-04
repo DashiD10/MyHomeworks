@@ -29,7 +29,7 @@ def read_csv (file_path: str, encoding: str = "utf-8") -> list[dict]:
         data = csv.DictReader(file, delimiter=delimiter)
         return list(data)
 
-def read_json (file_path: str, encoding: str = "utf-8") -> None:
+def read_json (file_path: str, encoding: str = "utf-8") -> list[dict]:
     """
     Функция для чтения json файла.
 
@@ -111,6 +111,17 @@ def append_csv (file_path: str, *data: dict, delimetr: str = ";", encoding: str 
         writer.writerows(data)
 
 def append_json (file_path: str, *data: dict, encoding: str = "utf-8") -> None:
-    pass
+    """
+    Функция для добавления данных в json файл.
+    В этом случае JSON перезаписывается, 
+    используем уже написанные функции
+
+    :param file_path: Путь к файлу
+    :param data: Данные для добавления
+    :param encoding: Кодировка файла
+    """
+    data_json = read_json(file_path)
+    data_json.extend(data)
+    write_json(file_path, data_json)
 
 
