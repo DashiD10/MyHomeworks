@@ -81,7 +81,17 @@ def append_txt (file_path: str, *data: str, encoding: str = "utf-8") -> None:
         file.writelines(ready_data)
 
 def append_csv (file_path: str, *data: dict, delimetr: str = ";", encoding: str = "utf-8") -> None:
-    pass
+    """
+    Функция для добавления данных в csv файл.
+
+    :param file_path: Путь к файлу
+    :param data: Данные для добавления
+    :param delimetr: Разделитель
+    :param encoding: Кодировка файла
+    """
+    with open(file_path, "a", encoding=encoding) as file:
+        writer = csv.DictWriter(file, delimiter=delimetr, fieldnames=data[0].keys())
+        writer.writerows(data)
 
 def append_json (file_path: str, *data: dict, encoding: str = "utf-8") -> None:
     pass
