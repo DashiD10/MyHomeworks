@@ -24,8 +24,17 @@ def read_yaml (file_path: str, encoding: str = "utf-8") -> None:
     pass
 
 
+
 def write_txt (*data: str, file_path: str, encoding: str = "utf-8") -> None:
-    pass
+    """
+    Функция записывает данные в файл
+
+    : param data: Данные для записи
+    : param file_path: путь к файлу
+    :param encoding: кодировка файла
+    """
+    with open(file_path, "w", encoding=encoding) as file:
+        file.writelines(data)
 
 def write_csv (*data: dict, delimetr: str = ";", file_path: str, encoding: str = "utf-8") -> None:
     pass
