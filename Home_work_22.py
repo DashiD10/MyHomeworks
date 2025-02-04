@@ -15,8 +15,19 @@ def read_txt (file_path: str, encoding: str = "utf-8") -> list[str]:
         data = [item.rstrip("\n") for item in file.readlines()]
         return data
 
-def read_csv (file_path: str, encoding: str = "utf-8") -> None:
-    pass
+
+def read_csv (file_path: str, encoding: str = "utf-8") -> list[dict]:
+    """
+    Функция для чтения csv файла.
+
+    :param file_path: путь к файлу
+    :param delimiter: разделитель
+    :param encoding: кодировка файла
+    :return: список словарей
+    """
+    with open(file_path, "r", encoding=encoding) as file:
+        data = csv.DictReader(file, delimiter=delimiter)
+        return list(data)
 
 def read_json (file_path: str, encoding: str = "utf-8") -> None:
     pass
@@ -25,8 +36,7 @@ def read_yaml (file_path: str, encoding: str = "utf-8") -> None:
     pass
 
 
-
-def write_txt (*data: str, file_path: str, encoding: str = "utf-8") -> None:
+def write_txt (file_path: str, *data: str, encoding: str = "utf-8") -> None:
     """
     Функция записывает данные в файл
 
@@ -38,13 +48,27 @@ def write_txt (*data: str, file_path: str, encoding: str = "utf-8") -> None:
         ready_data = [item + '\n' for item in data]
         file.writelines(ready_data)
 
-def write_csv (*data: dict, delimetr: str = ";", file_path: str, encoding: str = "utf-8") -> None:
+def write_csv (file_path: str, *data: dict, delimetr: str = ";", encoding: str = "utf-8-sig"):
+    """
+    Функция для записи данных в csv файл.
+
+    :param file_path: Путь к файлу
+    :param data: Данные для записи
+    :param delimetr: Разделитель
+    :param encoding: Кодировка файла
+    """
+    with open(file_path, "w", encoding=encoding) as file:
+        writer = csv.DictWriter(file, delimiter=delimetr, fieldnames=data[0].keys())
+        writer.writeheader()
+        writer.writerows(data)
+
+def write_json (file_path: str, *data: dict, encoding: str = "utf-8") -> None:
     pass
 
-def write_json (*data: dict, file_path: str, encoding: str = "utf-8") -> None:
+def write_yaml (file_path: str, *data: dict, encoding: str = "utf-8") -> None:
     pass
 
-def append_txt (*data: str, file_path: str, encoding: str = "utf-8") -> None:
+def append_txt (file_path: str, *data: str, encoding: str = "utf-8") -> None:
     """
     Функция для добавления данных в текстовый файл.
 
@@ -56,10 +80,10 @@ def append_txt (*data: str, file_path: str, encoding: str = "utf-8") -> None:
         ready_data = [item + '\n' for item in data]
         file.writelines(ready_data)
 
-def append_csv (*data: dict, delimetr: str = ";", file_path: str, encoding: str = "utf-8") -> None:
+def append_csv (file_path: str, *data: dict, delimetr: str = ";", encoding: str = "utf-8") -> None:
     pass
 
-def append_json (*data: dict, file_path: str, encoding: str = "utf-8") -> None:
+def append_json (file_path: str, *data: dict, encoding: str = "utf-8") -> None:
     pass
 
 
