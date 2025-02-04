@@ -72,7 +72,15 @@ def write_csv (file_path: str, *data: dict, delimetr: str = ";", encoding: str =
         writer.writerows(data)
 
 def write_json (file_path: str, *data: dict, encoding: str = "utf-8") -> None:
-    pass
+    """
+    Функция для записи данных в json файл.
+
+    :param file_path: Путь к файлу
+    :param data: Данные для записи
+    :param encoding: Кодировка файла
+    """
+    with open(file_path, "w", encoding=encoding) as file:
+        json.dump(data, file, ensure_ascii=False, indent=2)
 
 def write_yaml (file_path: str, *data: dict, encoding: str = "utf-8") -> None:
     pass
