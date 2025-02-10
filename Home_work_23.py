@@ -1,3 +1,5 @@
+# Декоратор для проверки пароля
+
 from typing import Callable, Any
 import re
 
@@ -32,3 +34,46 @@ def register_user(password: str) -> str:
 # Примеры использования
 print(register_user("слабый пароль"))
 print(register_user("Сильный! Пароль123"))
+
+
+# Декораторы с параметрами
+
+from typing import Callable, Any
+import csv
+from functools import wraps
+
+
+def password_validator(
+     min_length: int = 8,
+    min_uppercase: int = 1,
+    min_lowercase: int = 1,
+    min_special_chars: int = 1
+) -> Callable:
+    def decorator(func: Callable) -> Callable:
+        @wraps(func)
+        def  wrapper(username: str, password: str) -> Any:
+            if len(password) < min_length:
+                raise ValueError(f"Пароль должен быть не менее {min_length} символов")
+
+            if sum(1 for c in password if c.isupper()) < min_uppercase:
+                raise ValueError(
+                    f"Пароль должен содержать минимум {min_uppercase} заглавных букв"
+                )
+
+            if sum(1 for c in password if c.islower()) < min_lowercase:
+                raise ValueError(
+                    f"Пароль должен содержать минимум {min_lowercase} строчных букв"
+                )
+
+            if sum(1 for c in пароль if c in '!@#$%^&*(),.?":{}|<>') <  min_special_chars:
+                raise ValueError(
+                    f"Пароль должен содержать минимум { min_special_chars} спецсимволов"
+                )
+
+            return func(username, password)
+
+        return wrapper
+
+    return decorator
+
+
