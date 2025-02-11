@@ -44,14 +44,14 @@ from functools import wraps
 
 
 def password_validator(
-     min_length: int = 8,
+    min_length: int = 8,
     min_uppercase: int = 1,
     min_lowercase: int = 1,
-    min_special_chars: int = 1
+    min_special_chars: int = 1,
 ) -> Callable:
     def decorator(func: Callable) -> Callable:
         @wraps(func)
-        def  wrapper(username: str, password: str) -> Any:
+        def wrapper(username: str, password: str) -> Any:
             if len(password) < min_length:
                 raise ValueError(f"Пароль должен быть не менее {min_length} символов")
 
@@ -65,7 +65,10 @@ def password_validator(
                     f"Пароль должен содержать минимум {min_lowercase} строчных букв"
                 )
 
-            if sum(1 for c in пароль if c in '!@#$%^&*(),.?":{}|<>') <  min_special_chars:
+            if (
+                sum(1 for c in пароль if c in '!@#$%^&*(),.?":{}|<>')
+                < min_special_chars
+            ):
                 raise ValueError(
                     f"Пароль должен содержать минимум { min_special_chars} спецсимволов"
                 )
@@ -77,3 +80,37 @@ def password_validator(
     return decorator
 
 
+def username_validator() -> Callable:
+    def decorator(func: Callable) -> Callable:
+        @wraps(func)
+        def wrapper(username: str, password: str) -> Any:
+            if " " in username:
+                raise ValueError("Имя пользователя не должно содержать пробелы")
+            return func(username, password)
+
+        return wrapper
+
+    return decorator
+
+
+@password_validator(length=10, uppercase=2, lowercase=2, special_chars=2)
+@username_validator()
+def register_user(username: str, password: str) -> None:
+    with open("users.csv", "a", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow(username, password)
+    print(f"Пользователь {username} успешно зарегистрирован")
+
+
+# Примеры использования
+try:
+    register_user("ИванПетров", "СуперПароль123!@")
+    print("Регистрация успешна!")
+except ValueError as e:
+    print(f"Error: {e}")
+
+try:
+    register_user("Иван Петров", "слабый пароль")
+    print("Регистрация успешна!")
+except ValueError as e:
+    print(f"Error: {e}")
