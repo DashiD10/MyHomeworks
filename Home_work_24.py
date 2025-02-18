@@ -1,3 +1,10 @@
+
+
+# МОЙ РЕПОЗИТОРИЙ В ГИТХАБ: https://github.com/DashiD10/MyHomeworks
+
+
+
+
 from typing import Dict, List, Set, Any, Optional, Union
 from pprint import pprint
 from marvel import full_dict
