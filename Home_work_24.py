@@ -20,3 +20,25 @@ def get_unique_directors() -> Set[str]:
 
 def convert_years_to_str() -> Dict[int, Dict[str, Any]]:
     return {k: {**v, "year": str(v["year"])} for k, v in full_dict.items()}
+
+def filter_ch_movies() -> List[Dict[str, Any]]:
+    return list(
+        filter(lambda x: x["title"] and x["title"].startswith("Ч"), full_dict.values())
+    )
+
+def sort_by_year() -> Dict[int, Dict[str, Any]]:
+    sorted_items = sorted(
+        full_dict.items(),
+        key=lambda x: x[1]["year"] if isinstance(x[1]["year"], int) else float("inf"),
+    )
+    return dict(sorted_items)
+
+def sort_by_year_and_title() -> Dict[int, Dict[str, Any]]:
+    sorted_items = sorted(
+        full_dict.items(),
+        key=lambda x: (
+            x[1]["year"] if isinstance(x[1]["year"], int) else float("inf"),
+            x[1]["title"] if x[1]["title"] else "",
+        ),
+    )
+    return dict(sorted_items)
