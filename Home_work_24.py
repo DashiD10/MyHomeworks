@@ -42,3 +42,49 @@ def sort_by_year_and_title() -> Dict[int, Dict[str, Any]]:
         ),
     )
     return dict(sorted_items)
+
+def filter_and_sort_oneliner() -> Dict[int, Dict[str, Any]]:
+    return dict(
+        sorted(
+            filter(
+                lambda x: isinstance(x[1]["year"], int) and x[1]["year"] > 2020,
+                full_dict.items(),
+            ),
+            key=lambda x: x[1]["year"],
+        )
+    )
+
+
+def main():
+   
+    print("\n=== Ввод пользователя ===")
+    user_ids = get_user_input()
+    pprint(user_ids)
+
+    print("\n=== Перепаковка `full_dict` в список словарей ===")
+    pprint(repack_to_list()[:2])  
+
+    print("\n=== Использование фильтрации по `ids` ===")
+    pprint(filter_by_ids(user_ids))
+
+    print("\n=== Множество с помощью `set comprehension`, уникальные значения ключа `director` из словаря ===")
+    pprint(get_unique_directors())
+
+    print("\n=== Преобразование Years as Strings ===")
+    pprint(list(convert_years_to_str().items())[:2])  
+
+    print("\n=== Получаем фильмы на 'Ч' ===")
+    pprint(filter_ch_movies())
+
+    print("\n=== Отсортировка словаря `full_dict` по одному параметру с использованием `lambda` ===")
+    pprint(list(sort_by_year().items())[:2])  
+
+    print("\n=== Отсортировка словаря `full_dict` по двум параметрам с использованием `lambda` ===")
+    pprint(list(sort_by_year_and_title().items())[:2])  
+
+    print("\n=== Фильтрация и сортировка `full_dict` с использованием `filter` и `sorted` ===")
+    pprint(filter_and_sort_oneliner())
+
+
+if __name__ == "__main__":
+    main()
