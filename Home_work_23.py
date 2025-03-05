@@ -1,3 +1,5 @@
+# Мой репозиторий в ГИТХАБ https://github.com/DashiD10/MyHomeworks
+
 # Декоратор для проверки пароля
 
 from typing import Callable, Any
