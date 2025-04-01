@@ -42,6 +42,7 @@ class AbstractFile(ABC):
         """
         pass
 
+
 class JsonFile(AbstractFile):
     """
     Класс для работы с JSON-файлами.
@@ -101,3 +102,111 @@ class JsonFile(AbstractFile):
             existing_data = data
         
         self.write(existing_data)
+
+
+class TxtFile(AbstractFile):
+    """
+    Класс для работы с текстовыми файлами.
+    """
+    
+    def __init__(self, file_path: str):
+        """
+        Инициализация объекта TxtFile.
+        
+        Args:
+            file_path (str): Путь к текстовому файлу.
+        """
+        self.file_path = file_path
+    
+    def read(self):
+        """
+        Чтение данных из текстового файла.
+        
+        Returns:
+            str: Содержимое текстового файла.
+        """
+        try:
+            with open(self.file_path, 'r', encoding='utf-8') as file:
+                return file.read()
+        except FileNotFoundError:
+            return ""
+    
+    def write(self, data: str):
+        """
+        Запись данных в текстовый файл.
+        
+        Args:
+            data (str): Данные для записи в текстовый файл.
+        """
+        with open(self.file_path, 'w', encoding='utf-8') as file:
+            file.write(str(data))
+    
+    def append(self, data: str):
+        """
+        Добавление данных в текстовый файл.
+        
+        Args:
+            data (str): Данные для добавления в текстовый файл.
+        """
+        with open(self.file_path, 'a', encoding='utf-8') as file:
+            file.write(str(data))
+
+
+class CsvFile(AbstractFile):
+    """
+    Класс для работы с CSV-файлами.
+    """
+    
+    def __init__(self, file_path: str):
+        """
+        Инициализация объекта CsvFile.
+        
+        Args:
+            file_path (str): Путь к CSV-файлу.
+        """
+        self.file_path = file_path
+    
+    def read(self):
+        """
+        Чтение данных из CSV-файла.
+        
+        Returns:
+            list: Список строк из CSV-файла.
+        """
+        try:
+            with open(self.file_path, 'r', newline='', encoding='utf-8') as file:
+                reader = csv.reader(file)
+                return list(reader)
+        except FileNotFoundError:
+            return []
+    
+    def write(self, data: list):
+        """
+        Запись данных в CSV-файл.
+        
+        Args:
+            data (list): Список строк для записи в CSV-файл.
+        """
+        with open(self.file_path, 'w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            if isinstance(data[0], list):
+                writer.writerows(data)
+            else:
+                writer.writerow(data)
+    
+    def append(self, data: list):
+        """
+        Добавление данных в CSV-файл.
+        
+        Args:
+            data (list): Список строк для добавления в CSV-файл.
+        """
+        # Проверяем существование файла
+        file_exists = os.path.isfile(self.file_path)
+        
+        with open(self.file_path, 'a', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            if isinstance(data[0], list):
+                writer.writerows(data)
+            else:
+                writer.writerow(data)
