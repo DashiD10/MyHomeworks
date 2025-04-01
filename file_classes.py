@@ -5,7 +5,6 @@ import json
 import csv
 import os
 
-
 class AbstractFile(ABC):
     """
     Абстрактный класс для работы с файлами.
@@ -210,3 +209,7 @@ class CsvFile(AbstractFile):
                 writer.writerows(data)
             else:
                 writer.writerow(data)
+
+            
+
+
